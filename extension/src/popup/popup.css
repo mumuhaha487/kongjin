@@ -1,0 +1,271 @@
+html,
+body,
+#root {
+  width: 360px;
+  height: auto;
+  min-height: 0;
+  max-height: 560px;
+  overflow: auto;
+}
+body {
+  background: linear-gradient(180deg, #070b16 0%, #0b1530 100%);
+}
+[data-theme="light"] body {
+  background: linear-gradient(180deg, #e3edfb 0%, #f4f6fa 60%);
+}
+.popup-app {
+  width: 360px;
+  max-height: 560px;
+  overflow: auto;
+}
+.popup-header {
+  height: 48px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.popup-header > div:last-child {
+  display: flex;
+  gap: 4px;
+}
+.popup-header button {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: var(--text-2);
+}
+.popup-header button:hover {
+  background: var(--surface-hover);
+}
+.current-card {
+  position: relative;
+  margin: 0 12px;
+  padding: 14px;
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  animation: popup-entry 240ms var(--ease-out) both;
+}
+.current-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.current-title .tile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+}
+.current-title .tile-icon img {
+  width: 24px;
+  height: 24px;
+}
+.current-title > div:last-child {
+  min-width: 0;
+  flex: 1;
+}
+.current-title input {
+  width: 100%;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  padding: 2px 4px;
+  border-radius: var(--r-xs);
+}
+.current-title input:focus {
+  background: var(--surface-active);
+  box-shadow: none;
+}
+.current-title p {
+  font-size: 12px;
+  color: var(--text-3);
+  padding-left: 4px;
+}
+.popup-groups {
+  display: flex;
+  overflow: auto;
+  margin-top: 12px;
+  gap: 4px;
+}
+.popup-groups button {
+  height: 28px;
+  font-size: 13px;
+  border-radius: var(--r-pill);
+  padding: 0 12px;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.popup-groups button.selected {
+  background: var(--surface-active);
+  color: var(--text);
+}
+.current-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.current-actions .button {
+  height: 40px;
+  min-height: 40px;
+  flex: 1;
+  padding: 0 12px;
+}
+.current-actions .button > span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.saved-pill {
+  display: block;
+  width: fit-content;
+  margin: 0 0 8px auto;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  padding: 2px 8px;
+}
+.unsupported {
+  font-size: 13px;
+  color: var(--text-3);
+}
+.popup-bookmarks {
+  margin: 16px 12px;
+  animation: popup-entry 240ms 40ms var(--ease-out) both;
+}
+.popup-bookmarks-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+.popup-bookmarks-heading .segments {
+  height: 28px;
+  overflow: auto;
+}
+.popup-bookmarks-heading .segments button {
+  font-size: 12px;
+  height: 20px;
+  padding: 0 10px;
+}
+.popup-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 52px);
+  row-gap: 10px;
+  max-height: 203px;
+  overflow: auto;
+  mask-image: linear-gradient(
+    transparent,
+    #000 16px,
+    #000 calc(100% - 16px),
+    transparent
+  );
+}
+.popup-grid button {
+  width: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+}
+.popup-grid .tile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+}
+.popup-grid .tile-icon img {
+  width: 22px;
+  height: 22px;
+}
+.popup-name {
+  max-width: 52px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  color: var(--text-2);
+}
+.popup-app footer {
+  height: 44px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid var(--border);
+}
+.popup-app footer small {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-3);
+}
+.popup-permission {
+  position: absolute;
+  inset: 0;
+  padding: 20px;
+  background: var(--bg);
+  z-index: 10;
+}
+.popup-permission .button-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+.saved-success {
+  animation: popup-success 600ms var(--ease-out);
+}
+@keyframes popup-entry {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes popup-success {
+  50% {
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .current-card,
+  .popup-bookmarks {
+    animation: none;
+  }
+  .saved-success {
+    animation-duration: 150ms;
+  }
+}
+.popup-success-check circle {
+  stroke-dasharray: 63;
+  stroke-dashoffset: 63;
+  animation: popup-draw 320ms forwards;
+}
+.popup-success-check path {
+  stroke-dasharray: 16;
+  stroke-dashoffset: 16;
+  animation: popup-draw 320ms forwards;
+}
+.saved-success {
+  animation-delay: 320ms;
+}
+@keyframes popup-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.popup-app footer > .text-button {
+  margin-left: auto;
+}
+.current-actions .button {
+  min-width: 0;
+}
+.current-actions .button > span {
+  gap: 4px;
+  white-space: nowrap;
+}

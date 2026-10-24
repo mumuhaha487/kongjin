@@ -1,0 +1,25 @@
+{
+  "name": "kongjing-relay",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "local": "node local/server.mjs",
+    "deploy": "node ../scripts/deploy-cloudflare.mjs"
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "wrangler": "4.151.3",
+    "vitest": "5.0.5",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "@types/ws": "^8.18.1",
+    "@types/node": "^22.0.0",
+    "undici": "^7.16.0",
+    "@aws-sdk/client-s3": "^3.900.0",
+    "https-proxy-agent": "^7.0.6"
+  }
+}

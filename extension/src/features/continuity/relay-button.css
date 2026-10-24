@@ -1,0 +1,21 @@
+.relay-trigger {
+  position: relative;
+  width: 36px;
+  height: 36px;
+}
+.relay-unread {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  right: 0;
+  top: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg);
+  box-sizing: content-box;
+}
+
+[data-platform="android"] .relay-trigger {
+  width: 40px;
+  height: 40px;
+}

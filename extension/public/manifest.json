@@ -1,0 +1,63 @@
+{
+  "manifest_version": 3,
+  "name": "空境 · 新标签页",
+  "short_name": "空境",
+  "version": "2.1.0",
+  "description": "空境——安静的新标签页：时钟、搜索、书签，以及端到端加密的多设备同步。",
+  "permissions": [
+    "storage",
+    "favicon",
+    "activeTab",
+    "contextMenus",
+    "alarms",
+    "search"
+  ],
+  "host_permissions": [
+    "https://kongjing.inc.re/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "optional_permissions": [
+    "scripting"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "空境 · 快速收藏",
+    "default_icon": {
+      "16": "icons/16.png",
+      "32": "icons/32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+K"
+      }
+    },
+    "toggle-bar": {
+      "suggested_key": {
+        "default": "Alt+J"
+      },
+      "description": "展开或收起空境栏"
+    }
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; base-uri 'self'"
+  },
+  "minimum_chrome_version": "111"
+}

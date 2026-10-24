@@ -1,0 +1,23 @@
+{
+  "outputDirectory": "edge/public",
+  "cloudFunctions": {
+    "maxDuration": 120,
+    "regions": { "overseas": ["ap-singapore"] }
+  },
+  "headers": [
+    { "source": "/*", "headers": [{ "key": "X-Content-Type-Options", "value": "nosniff" }] }
+  ],
+  "redirects": [
+    {
+      "source": "/download/android",
+      "destination": "https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing-browser-1.4.1.apk",
+      "statusCode": 302
+    },
+    {
+      "source": "/download/extension",
+      "destination": "https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing-2.1.0-store.zip",
+      "statusCode": 302
+    }
+  ],
+  "rewrites": [{ "source": "/privacy", "destination": "/privacy.html" }]
+}

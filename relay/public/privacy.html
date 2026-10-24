@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'none'" />
+    <title>空境 隐私政策 | Kongjing Privacy Policy</title>
+    <style>
+      :root {
+        --bg: #f3f6fa;
+        --text: #121826;
+        --text2: #536174;
+        --text3: #5e6c7d;
+        --accent: #2f6ceb;
+        --surface: rgba(255, 255, 255, 0.62);
+        --border: rgba(30, 60, 120, 0.1);
+        --sky: linear-gradient(
+          180deg,
+          #d6e5fa 0%,
+          #e7effa 36%,
+          #f1f5fa 66%,
+          #f4f6fa 100%
+        );
+        --ring: rgba(255, 255, 255, 0.95);
+        --ring2: rgba(47, 108, 235, 0.1);
+        --glint: #ffffff;
+        --sea1: #dde8f8;
+        --sea2: #e8f0fa;
+        --sea3: #f2f6fb;
+        --seaEdge: rgba(255, 255, 255, 0.9);
+        --sun: rgba(255, 255, 255, 0.85);
+        --haze: rgba(47, 108, 235, 0.12);
+        --star: #ffffff;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+        --bg: #070b16;
+        --text: #eef2fa;
+        --text2: #a6b4cb;
+        --text3: #98a8c2;
+        --accent: #7db0ff;
+        --surface: rgba(160, 190, 255, 0.06);
+        --border: rgba(170, 200, 255, 0.1);
+        --sky: linear-gradient(
+          180deg,
+          #04070f 0%,
+          #071027 46%,
+          #0a1531 76%,
+          #0c1836 100%
+        );
+        --ring: rgba(150, 190, 255, 0.26);
+        --ring2: rgba(150, 190, 255, 0.07);
+        --glint: #cfe0ff;
+        --sea1: #0c1834;
+        --sea2: #0f1d3d;
+        --sea3: #122347;
+        --seaEdge: rgba(150, 190, 255, 0.1);
+        --sun: rgba(110, 160, 255, 0.14);
+        --haze: rgba(125, 176, 255, 0.12);
+        --star: #dce8ff;
+        }
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        background: var(--bg);
+        font-family: Inter, "Microsoft YaHei UI", sans-serif;
+      }
+      .layer {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+      }
+      .sky {
+        background: var(--sky);
+      }
+      .glow {
+        background:
+          radial-gradient(40vmax 40vmax at 80% 8%, var(--sun), transparent 70%),
+          radial-gradient(
+            55vmax 45vmax at 12% 18%,
+            var(--haze),
+            transparent 70%
+          );
+      }
+      .stars {
+        display: none;
+        -webkit-mask-image: radial-gradient(
+          ellipse 380px 300px at 50% 40%,
+          rgba(0, 0, 0, 0.2),
+          #000 100%
+        );
+      }
+      .dark .stars {
+        display: block;
+      }
+      svg.orbit {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .sea {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 30vh;
+      }
+      .sea svg {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .top {
+        position: fixed;
+        top: 24px;
+        left: 28px;
+        right: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 36px;
+      }
+      .wm {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text2);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.36em;
+      }
+      .center {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 18vh;
+        text-align: center;
+      }
+      .greet {
+        color: var(--text2);
+        font-size: 15px;
+        letter-spacing: 0.02em;
+      }
+      .clock {
+        font-size: 136px;
+        font-weight: 200;
+        letter-spacing: -0.045em;
+        color: var(--text);
+        line-height: 1;
+        margin-top: 8px;
+        position: relative;
+        display: inline-block;
+      }
+      .date {
+        color: var(--text3);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        margin-top: 12px;
+      }
+      .search {
+        width: 600px;
+        height: 56px;
+        border-radius: 999px;
+        margin: 40px auto 0;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        backdrop-filter: blur(28px) saturate(150%);
+        display: flex;
+        align-items: center;
+        padding: 0 22px;
+        color: var(--text3);
+        font-size: 16px;
+      }
+      .tiles {
+        display: flex;
+        gap: 40px;
+        justify-content: center;
+        margin-top: 80px;
+      }
+      .t {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+      .spark {
+        position: absolute;
+        right: -30px;
+        top: -6px;
+        width: 18px;
+        height: 18px;
+      }
+
+      html,
+      body {
+        min-height: 100vh;
+      }
+      body {
+        color: var(--text);
+      }
+      main {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 40px 24px;
+      }
+      h1 {
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        padding-left: 0.3em;
+        margin: 20px 0 12px;
+      }
+      .subtitle {
+        font-size: 14px;
+        color: var(--text2);
+      }
+      .actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 32px;
+      }
+      a.button,
+      button {
+        font:
+          500 14px Inter,
+          "Microsoft YaHei UI",
+          sans-serif;
+        border-radius: 12px;
+        padding: 12px 20px;
+        border: 1px solid var(--border);
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        background: var(--surface);
+        color: var(--text);
+      }
+      .primary {
+        background: var(--text) !important;
+        color: var(--bg) !important;
+      }
+      details {
+        margin: 0;
+      }
+      summary {
+        list-style: none;
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      .explain {
+        max-width: 440px;
+        font-size: 13px;
+        line-height: 1.8;
+        color: var(--text2);
+        text-align: left;
+        margin: 20px auto;
+      }
+      footer {
+        position: fixed;
+        bottom: 28px;
+        left: 24px;
+        right: 24px;
+        text-align: center;
+        color: var(--text3);
+        font-size: 12px;
+      }
+      footer a {
+        color: var(--accent);
+        margin-left: 8px;
+        text-underline-offset: 3px;
+      }
+      .orbit ellipse:nth-child(2) {
+        animation: orbit 90s linear infinite;
+      }
+      .sea svg {
+        animation: sea 28s ease-in-out infinite alternate;
+      }
+      .note {
+        font-size: 12px;
+        color: var(--text3);
+        margin: 16px 0;
+      }
+      @keyframes orbit {
+        to {
+          stroke-dashoffset: -4570;
+        }
+      }
+      @keyframes sea {
+        to {
+          transform: translateY(6px);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+        }
+      }
+      html.paused * {
+        animation-play-state: paused !important;
+      }
+      @media (max-width: 480px) {
+        .actions {
+          flex-direction: column;
+        }
+        footer {
+          position: relative;
+          bottom: auto;
+          padding: 0 12px 24px;
+        }
+        main {
+          min-height: 90vh;
+        }
+      }
+    
+      main.privacy {
+        display: block;
+        width: calc(100% - 48px);
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 32px 0 64px;
+        text-align: left;
+      }
+      .language-switch {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 32px;
+        font-size: 15px;
+        line-height: 1.8;
+        color: var(--text2);
+      }
+      .privacy a { color: var(--accent); text-underline-offset: 3px; }
+      .privacy a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+      .policy {
+        font-size: 15px;
+        line-height: 1.8;
+        overflow-wrap: anywhere;
+        scroll-margin-top: 24px;
+      }
+      .policy + .policy { margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--border); }
+      .policy h1 { font-size: 28px; line-height: 1.4; letter-spacing: normal; padding: 0; margin: 0 0 24px; }
+      .policy h2 { font-size: 20px; line-height: 1.5; font-weight: 600; margin: 32px 0 12px; }
+      .policy p, .policy ul { margin: 16px 0; }
+      .policy ul { padding-left: 24px; }
+      .policy li + li { margin-top: 6px; }
+      .policy code { font-size: 0.95em; }
+      .table-wrap { overflow-x: auto; margin: 16px 0; }
+      .policy table { width: 100%; min-width: 560px; border-collapse: collapse; }
+      .policy th, .policy td { padding: 10px 12px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+      .policy th { font-weight: 600; background: var(--surface); }
+    </style>
+  </head>
+  <body>
+    <div class="layer sky" aria-hidden="true"></div>
+    <div class="layer glow" aria-hidden="true"></div>
+    <svg aria-hidden="true" class="layer stars" viewBox="0 0 1440 900" id="stars"></svg>
+    <svg aria-hidden="true" class="orbit" viewBox="0 0 1440 900" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="rf" x1="0" x2="1">
+          <stop offset="0" stop-color="var(--ring)" stop-opacity="0" />
+          <stop offset=".35" stop-color="var(--ring)" />
+          <stop offset="1" stop-color="var(--ring)" stop-opacity=".2" />
+        </linearGradient>
+      </defs>
+      <defs>
+        <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff" />
+          <stop offset=".42" stop-color="#fff" />
+          <stop offset=".58" stop-color="#fff" stop-opacity="0" />
+        </linearGradient>
+        <mask id="m"><rect width="1440" height="900" fill="url(#fade)" /></mask>
+      </defs>
+      <g mask="url(#m)">
+        <g transform="rotate(-8 720 300)">
+          <ellipse
+            cx="720"
+            cy="300"
+            rx="1000"
+            ry="190"
+            fill="none"
+            style="stroke: var(--ring)"
+            stroke-width="1"
+            opacity=".85"
+          />
+          <ellipse
+            cx="720"
+            cy="300"
+            rx="1000"
+            ry="190"
+            fill="none"
+            style="stroke: var(--glint)"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-dasharray="70 4200"
+            stroke-dashoffset="-300"
+            opacity=".9"
+          />
+        </g>
+      </g>
+    </svg>
+    <div class="sea" aria-hidden="true">
+      <svg viewBox="0 0 1440 270" preserveAspectRatio="none">
+        <path
+          d="M0 120 C180 90 320 100 480 120 C660 142 820 140 980 116 C1140 92 1300 96 1440 112 L1440 270 L0 270Z"
+          style="fill: var(--sea1)"
+        />
+        <path
+          d="M0 120 C180 90 320 100 480 120 C660 142 820 140 980 116 C1140 92 1300 96 1440 112"
+          fill="none"
+          style="stroke: var(--seaEdge)"
+          stroke-width="1.5"
+        />
+        <path
+          d="M0 170 C160 150 330 146 500 166 C680 188 860 186 1020 166 C1180 146 1320 150 1440 162 L1440 270 L0 270Z"
+          style="fill: var(--sea2)"
+        />
+        <path
+          d="M0 222 C200 206 380 204 560 218 C740 232 920 232 1100 218 C1240 208 1360 208 1440 214 L1440 270 L0 270Z"
+          style="fill: var(--sea3)"
+        />
+      </svg>
+    </div>
+    
+    <main class="privacy">
+      <nav class="language-switch" aria-label="Language / 语言">
+        <a href="/">返回首页</a><a href="#zh" lang="zh-CN">中文</a><span aria-hidden="true">|</span><a href="#en" lang="en">English</a>
+      </nav>
+      <section class="policy" id="zh" lang="zh-CN" aria-labelledby="zh-title">
+        <h1 id="zh-title">空境 隐私政策</h1>
+        <p>生效日期：2026 年 10 月 24 日</p>
+        <p>空境（Kongjing）提供新标签页、书签与可选的多设备同步。<strong>数据默认保存在本机；配对与同步由你主动开启。</strong></p>
+        <h2>1. 数据与本机存储</h2>
+        <div class="table-wrap"><table><thead><tr><th scope="col">数据</th><th scope="col">来源与用途</th><th scope="col">存放位置</th></tr></thead><tbody>
+          <tr><td>书签、分组、图标</td><td>你添加、导入，或点击收藏时读取的网页网址和标题</td><td>本机；开启配对后可端到端加密同步</td></tr>
+          <tr><td>昵称、头像、设置</td><td>你填写、上传或选择，用于个性化界面</td><td>本机；开启配对后可端到端加密同步</td></tr>
+          <tr><td>搜索记录</td><td>空境搜索框中的输入，用于本机搜索记录功能</td><td>仅本机，不随书签同步上传</td></tr>
+          <tr><td>可选接力数据</td><td>在支持接力的版本中，你主动开启的页面发送、标签页或浏览记录功能</td><td>本机；按你开启的功能端到端加密传到配对设备</td></tr>
+        </tbody></table></div>
+        <p>基础新标签页、书签和搜索<strong>不要求浏览记录（history）权限</strong>。支持浏览记录或标签页接力的版本，只在你主动开启相应功能并授予可选权限后读取这些数据。空境不采集网页正文用于统计或广告。</p>
+        <h2>2. 网络请求与服务选择</h2>
+        <p><strong>配对与同步：</strong>默认公共同步服务是 <a href="https://kongjing.inc.re/">https://kongjing.inc.re/</a>，由 Cloudflare 提供基础设施。你也可以在同步设置中选择 EdgeOne Makers 或自己部署的服务，填写自己的 HTTPS 来源地址。同步与图标请求会使用你选定的服务地址；自建运营者负责其服务的日志、保留与基础设施政策。</p>
+        <p>书签、设置、个人资料及开启的接力内容在设备上使用 AES-256-GCM 端到端加密。解密密钥留在配对设备上，服务端无法读取内容明文。服务端会处理随机房间/设备标识、配对公钥及协议元数据、密文、数据大小和请求时间。请求 IP 用于网络传输和防滥用；应用限流使用加盐哈希，基础设施提供方仍可能按其政策处理 IP 等网络元数据。</p>
+        <p>Chrome 商店版使用 HTTP/WebSocket 同步，不使用点对点直连。支持直连的安卓或非商店版本在配对后可能通过 WebRTC 与其他设备连接，并向 STUN 服务发送连通性探测；STUN 服务与对端可能获知你的公网 IP。无法直连时，可按同步模式经所选服务转交密文。</p>
+        <p><strong>网站图标：</strong>优先使用本机图标缓存；缺失时将书签网站的域名（例如 <code>github.com</code>，不含页面路径）发给所选图标服务，以获取公开图标。域名查询本身不受书签端到端加密保护，服务也会接触必要的网络元数据。</p>
+        <p><strong>网页搜索与打开网站：</strong>提交网页搜索时，搜索词交给浏览器默认或你选择的搜索引擎；打开书签时连接对应网站。这些网站依其隐私政策处理请求。保存在本机的搜索记录不代表搜索引擎无法收到你提交的搜索词。</p>
+        <h2>3. 权限与程序代码</h2>
+        <p>空境栏默认关闭。仅在你主动开启时，申请可选 scripting 与 HTTP(S) 网站权限，用随包代码在普通网页中显示个人书签入口；不读取网页正文。悬停或点击展开，移开自动收回。你可关闭空境栏、按网站隐藏，或在浏览器中撤销权限。</p>
+        <p>电脑扩展在你确认自建服务地址时申请访问该来源的可选主机权限，用于同步与图标请求。你可以拒绝或在浏览器扩展设置中撤销权限；拒绝后该自建服务将无法连接。权限不会自动授权读取其他网站。</p>
+        <p>扩展的可执行代码随安装包分发；同步、图标与部署服务<strong>不会下发或执行远程程序代码</strong>。空境不含广告、分析或追踪 SDK，不出售或出租你的数据，也不将其用于信用评估或放贷。</p>
+        <p>从 Chrome 扩展 API 获得的信息仅用于你开启的功能，并遵守 Chrome Web Store User Data Policy（包括 Limited Use 要求）。</p>
+        <h2>4. 保留、删除与离线使用</h2>
+        <p>你可在「设置 → 数据」导出数据、清除本机搜索记录，或离开配对组停止后续同步。离开配对组保留本机书签，不等同于立即删除所有服务器密文或其他设备的副本。卸载扩展会删除浏览器为该扩展保留的本机数据。</p>
+        <p>默认服务按数据类型设置到期清理，长期不活跃的配对组按 180 天期限回收；清理可能在后续访问时执行。接力等短期密文按相应功能期限清理。自建服务的实际保留与备份由运营者决定。</p>
+        <p>离线时，本地书签与本地搜索仍可使用，网络恢复后同步继续。外部网页搜索、图标获取和远端同步需要网络。</p>
+        <h2>5. 联系与更新</h2>
+        <p>问题与源码：<a href="https://github.com/mumuhaha487/kongjin">GitHub 开源仓库</a>。隐私问题可发邮件至 <a href="mailto:vrhjio4405@gmail.com">vrhjio4405@gmail.com</a>。</p>
+        <p>政策变更将在本页公布，并更新生效日期。</p>
+      </section>
+      <section class="policy" id="en" lang="en" aria-labelledby="en-title">
+        <h1 id="en-title">Kongjing Privacy Policy</h1>
+        <p>Effective date: October 24, 2026</p>
+        <p>Kongjing provides a new tab page, bookmarks and optional device sync. <strong>Data stays on your device by default. You choose whether to pair devices and enable sync.</strong></p>
+        <h2>1. Data and local storage</h2>
+        <div class="table-wrap"><table><thead><tr><th scope="col">Data</th><th scope="col">Source and purpose</th><th scope="col">Storage</th></tr></thead><tbody>
+          <tr><td>Bookmarks, groups and icons</td><td>Added or imported by you, or the page URL and title read when you save it</td><td>Local; end-to-end encrypted sync after pairing</td></tr>
+          <tr><td>Nickname, avatar and settings</td><td>Entered, uploaded or selected by you for personalization</td><td>Local; end-to-end encrypted sync after pairing</td></tr>
+          <tr><td>Search records</td><td>Queries entered into Kongjing, for local search history</td><td>Local only; not uploaded with bookmark sync</td></tr>
+          <tr><td>Optional continuity data</td><td>Pages you send, tabs or browsing history, when you enable these features in versions that support them</td><td>Local; end-to-end encrypted transfer to paired devices for enabled features</td></tr>
+        </tbody></table></div>
+        <p>The basic new tab page, bookmarks and search <strong>do not require browsing history permission</strong>. Versions with history or tab continuity read this data only after you enable the feature and grant the optional permission. Kongjing does not collect page content for analytics or advertising.</p>
+        <h2>2. Network requests and your service choice</h2>
+        <p><strong>Pairing and sync:</strong> the default public service is <a href="https://kongjing.inc.re/">https://kongjing.inc.re/</a>, hosted on Cloudflare. In sync settings, you may choose EdgeOne Makers or your own service and enter its HTTPS origin. Sync and icon requests use the selected endpoint. A self-hosted service operator is responsible for that service's logging, retention and infrastructure policies.</p>
+        <p>Bookmarks, settings, profile data and enabled continuity content are encrypted on your device using AES-256-GCM. Decryption keys remain on paired devices, so the service cannot read the content. The service processes random room/device identifiers, pairing public keys and protocol metadata, ciphertext, sizes and request times. IP addresses are needed for network transport and abuse prevention; application rate limits use salted hashes, while infrastructure providers may process IP addresses and other network metadata under their own policies.</p>
+        <p>The Chrome Web Store build uses HTTP/WebSocket sync without peer-to-peer transfer. Android or non-store versions supporting peer-to-peer transfer may connect paired devices using WebRTC and send connectivity probes to STUN services. STUN providers and peers may learn your public IP address. If a direct connection is unavailable, encrypted content may pass through the selected service, depending on your sync mode.</p>
+        <p><strong>Site icons:</strong> Kongjing first uses local cached icons. When an icon is missing, it sends the site's domain (for example <code>github.com</code>, without the page path) to the selected icon service to obtain a public icon. The domain lookup itself is not protected by bookmark end-to-end encryption; the service also receives necessary network metadata.</p>
+        <p><strong>Web search and opening sites:</strong> submitting a web search sends the query to your browser's default or selected search engine. Opening a bookmark connects to that site. These services handle requests under their own policies. Local search records do not prevent a search engine from receiving queries that you submit.</p>
+        <h2>3. Permissions and executable code</h2>
+        <p>The optional bookmark dock is off by default. Enabling it requests optional scripting and HTTP(S) site access to show your bookmarks using code bundled in the extension. It does not read page content. Hover or click to expand; moving away collapses it. Disable the dock, hide it on individual sites, or revoke access in browser settings.</p>
+        <p>The desktop extension requests optional host access to your self-hosted origin only when you confirm that address, for sync and icon requests. You can decline or revoke this permission in the browser's extension settings; that service then cannot be reached. This does not automatically grant access to other websites.</p>
+        <p>Executable extension code is included in the installed package. Sync, icon and deployment services <strong>do not deliver or execute remote code</strong>. Kongjing contains no advertising, analytics or tracking SDKs. We do not sell or rent your data, or use it for creditworthiness or lending.</p>
+        <p>Information received from Chrome extension APIs is used only for features you enable, in accordance with the Chrome Web Store User Data Policy, including its Limited Use requirements.</p>
+        <h2>4. Retention, deletion and offline use</h2>
+        <p>You can export data in Settings → Data, clear local search records, or leave a pairing group to stop future sync. Leaving keeps local bookmarks; it does not immediately erase all server ciphertext or copies on other devices. Uninstalling the extension removes the local data that the browser stores for it.</p>
+        <p>The default service expires data by type and reclaims groups after 180 days of inactivity; cleanup may run on a later request. Short-lived continuity data expires according to the feature's retention period. Self-hosted operators determine their own retention and backups.</p>
+        <p>Local bookmarks and local search work offline. Sync continues when the network recovers. Web search, fetching icons and remote sync require a connection.</p>
+        <h2>5. Contact and updates</h2>
+        <p>Source and issues: <a href="https://github.com/mumuhaha487/kongjin">GitHub repository</a>. Privacy questions: <a href="mailto:vrhjio4405@gmail.com">vrhjio4405@gmail.com</a>.</p>
+        <p>Changes will be published on this page with an updated effective date.</p>
+      </section>
+    </main>
+  </body>
+</html>

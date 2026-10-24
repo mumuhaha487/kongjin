@@ -1,0 +1,12 @@
+# Local Cloudflare development only: copy to .dev.vars and replace both values.
+# Generate each value independently with:
+# node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
+POW_SECRET=replace-with-a-random-value-at-least-32-characters-long
+IP_HASH_SALT=replace-with-a-different-random-value-at-least-32-characters-long
+
+# Production deployment reads CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID
+# from the process environment, never from this file. It retains existing
+# POW_SECRET/IP_HASH_SALT and generates only missing production secrets.
+# EdgeOne deployment reads EDGEONE_PAGES_API_TOKEN and EDGEONE_PROJECT_NAME
+# from the process environment. Configure KONGJING_POW_SECRET once in the
+# EdgeOne project's production environment; redeployment preserves it.

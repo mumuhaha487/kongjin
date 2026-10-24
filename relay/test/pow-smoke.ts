@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import { randomBytes, createHash } from 'node:crypto';
+import { writeFile } from 'node:fs/promises';
+import { solvePow, leadingZeros, unb64 } from '../../shared/protocol/src/index.ts';
+const started=Date.now();
+const proof=await solvePow({challenge:randomBytes(16).toString('base64url'),difficulty:22,expiresAt:Date.now()+120000,purpose:'pair',sig:'performance-test-only'});
+const hash=createHash('sha256').update(unb64(proof.challenge)).update(unb64(proof.nonce)).digest();
+assert.ok(leadingZeros(hash)>=22);
+const result={timestamp:new Date().toISOString(),result:'passed',difficulty:22,ms:Date.now()-started,node:process.version,verifiedWithIndependentNodeCrypto:true};
+await writeFile(new URL('../artifacts/pow-smoke.json',import.meta.url),JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify(result));

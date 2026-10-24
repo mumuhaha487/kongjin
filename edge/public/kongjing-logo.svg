@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="kjSphere" x1="0.28" y1="0.06" x2="0.62" y2="0.98">
+      <stop offset="0" stop-color="#2D69EC"/>
+      <stop offset="0.48" stop-color="#5E9CF6"/>
+      <stop offset="0.74" stop-color="#BFDDFC"/>
+      <stop offset="1" stop-color="#E6F2FF"/>
+    </linearGradient>
+    <linearGradient id="kjSea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6FA8F7"/>
+      <stop offset="1" stop-color="#2F6CEB"/>
+    </linearGradient>
+    <linearGradient id="kjRing" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="0.22" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="0.7" stop-color="#F4F9FF"/>
+      <stop offset="1" stop-color="#B7D7FB"/>
+    </linearGradient>
+    <linearGradient id="kjBack" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#A9CEF9" stop-opacity="0"/><stop offset="0.55" stop-color="#A9CEF9" stop-opacity="0"/><stop offset="0.8" stop-color="#A9CEF9" stop-opacity="0.95"/><stop offset="1" stop-color="#C9E2FC"/></linearGradient>
+    <clipPath id="kjClip"><circle cx="64" cy="62" r="44"/></clipPath>
+  </defs>
+  <!-- 后半环：被球体遮住，只在球体两侧露出 -->
+  <g transform="rotate(-16 64 66)">
+    <path d="M4 66 A60 17 0 0 1 124 66" fill="none" stroke="url(#kjBack)" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+  <!-- 球体 -->
+  <circle cx="64" cy="62" r="44" fill="url(#kjSphere)"/>
+  <!-- 云海 -->
+  <g clip-path="url(#kjClip)">
+    <path d="M14 84 C28 78 40 80 52 84 C66 89 80 89 94 83 C102 80 110 79 116 80 L116 112 L14 112 Z" fill="#FFFFFF" opacity="0.55"/>
+    <path d="M14 94 C26 88 38 87 50 91 C64 96 78 97 92 92 C102 88 110 88 116 90 L116 112 L14 112 Z" fill="url(#kjSea)"/>
+  </g>
+  <!-- 前半环：两端收尖的月牙形 -->
+  <g transform="rotate(-16 64 66)">
+    <path d="M4 66 A60 19 0 0 0 124 66 A60 13 0 0 1 4 66 Z" fill="url(#kjRing)"/>
+  </g>
+  <!-- 四角星 -->
+  <path d="M84 27 C85.2 35.2 87.6 37.6 96 39 C87.6 40.4 85.2 42.8 84 51 C82.8 42.8 80.4 40.4 72 39 C80.4 37.6 82.8 35.2 84 27 Z" fill="#FFFFFF"/>
+</svg>

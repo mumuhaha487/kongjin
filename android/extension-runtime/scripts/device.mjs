@@ -1,0 +1,15 @@
+import { execFileSync } from 'node:child_process';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { resolve } from 'node:path';
+const root=resolve(import.meta.dirname,'../../..');
+const lock=readFileSync(resolve(root,'android/test-state/DEVICE.lock'),'utf8');
+if(!lock.startsWith('扩展运行时工程师'))throw new Error('Extension device lock required');
+export const adb=(...args)=>execFileSync(resolve(root,'.toolchain/sdk/platform-tools/adb.exe'),['-P','5038','-s','127.0.0.1:5555',...args],{maxBuffer:32*1024*1024});
+export const shell=(...args)=>adb('shell',...args).toString('utf8').trim();
+export function dump(){shell('uiautomator','dump','/sdcard/kj-ext-window.xml');const xml=adb('exec-out','cat','/sdcard/kj-ext-window.xml').toString('utf8');shell('rm','/sdcard/kj-ext-window.xml');return xml;}
+export function nodes(){return [...dump().matchAll(/<node\b([^>]+)>?/g)].map(m=>Object.fromEntries([...m[1].matchAll(/([\w-]+)="([^"]*)"/g)].map(x=>[x[1],x[2]])));}
+export function tap(label){const n=nodes().find(n=>n.text===label||n['content-desc']===label);if(!n)throw new Error('Missing UI: '+label);const b=n.bounds.match(/\d+/g).map(Number);shell('input','tap',String(Math.floor((b[0]+b[2])/2)),String(Math.floor((b[1]+b[3])/2)));}
+export function screenshot(name){if(!/^ext-[a-z0-9-]+\.png$/.test(name))throw new Error('Screenshot allowlist');const dir=resolve(root,'docs/v7/screenshots');mkdirSync(dir,{recursive:true});writeFileSync(resolve(dir,name),adb('exec-out','screencap','-p'));}
+export async function cdp(){const pid=shell('pidof','re.inc.kongjing.browser').split(/\s/)[0];const port=Number(adb('forward','tcp:0',`localabstract:webview_devtools_remote_${pid}`).toString());const targets=await(await fetch(`http://127.0.0.1:${port}/json/list`)).json();return {port,targets,close(){adb('forward','--remove',`tcp:${port}`)}};}
+export async function connect(target){const ws=new WebSocket(target.webSocketDebuggerUrl),pending=new Map();let n=0;await new Promise((resolve,reject)=>{ws.onopen=resolve;ws.onerror=reject});ws.onmessage=e=>{const m=JSON.parse(e.data);const p=pending.get(m.id);if(p){pending.delete(m.id);clearTimeout(p.timer);m.error?p.reject(new Error(JSON.stringify(m.error))):p.resolve(m.result)}};const send=(method,params={})=>new Promise((resolve,reject)=>{const id=++n,timer=setTimeout(()=>reject(new Error('CDP timeout: '+method)),20000);pending.set(id,{resolve,reject,timer});ws.send(JSON.stringify({id,method,params}))});return {send,async evaluate(expression){const r=await send('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(r.exceptionDetails)throw new Error(JSON.stringify(r.exceptionDetails));return r.result.value},close(){ws.close()}}}
+if(process.argv[1]===import.meta.filename){const [command,arg]=process.argv.slice(2);if(command==='nodes')console.log(nodes().filter(n=>n.text||n['content-desc']));else if(command==='tap')tap(arg);else if(command==='shot')screenshot(arg);else if(command==='cdp'){const c=await cdp();console.log(c.targets);c.close();}}

@@ -1,0 +1,15 @@
+{
+  "name": "kongjing",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build:edgeone": "node scripts/prepare-edgeone.mjs",
+    "deploy:cloudflare": "node scripts/deploy-cloudflare.mjs",
+    "deploy:edgeone": "node scripts/deploy-edgeone.mjs",
+    "test:deployment": "node --test tests/deployment.test.mjs"
+  },
+  "dependencies": { "@edgeone/pages-blob": "0.0.18" },
+  "devDependencies": { "wrangler": "4.151.3" }
+}

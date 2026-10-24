@@ -1,0 +1,10 @@
+import { writeFileSync, unlinkSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { shell,tap,cdp,screenshot } from './device.mjs';
+const result={};
+tap('主页');
+const c=await cdp();result.targets=c.targets.map(t=>t.url);result.extensionHostTargets=result.targets.filter(u=>u.includes('.ext.kongjing.invalid')).length;c.close();
+result.cpu=shell('dumpsys','cpuinfo');result.proxy=shell('settings','get','global','http_proxy');result.size=shell('wm','size');result.density=shell('wm','density');result.fontScale=shell('settings','get','system','font_scale');
+writeFileSync(resolve(import.meta.dirname,'../test-results/device-final.json'),JSON.stringify(result,null,2));
+if(result.proxy!=='null'||result.fontScale!=='null'||!result.size.includes('720x1280')||!result.density.includes('320'))throw new Error('Device restoration mismatch; lock retained');
+const lock=resolve(import.meta.dirname,'../../test-state/DEVICE.lock');if(!readFileSync(lock,'utf8').startsWith('扩展运行时工程师'))throw new Error('Lock owner changed');unlinkSync(lock);console.log({proxy:result.proxy,size:result.size,density:result.density,fontScale:result.fontScale,extensionHostTargets:result.extensionHostTargets,lock:'released'});

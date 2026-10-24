@@ -1,0 +1,1 @@
+{"compilerOptions":{"target":"ES2022","module":"ESNext","moduleResolution":"Bundler","allowJs":true,"checkJs":false,"strict":false,"skipLibCheck":true,"noEmit":true,"allowImportingTsExtensions":true,"lib":["ES2022","DOM","DOM.Iterable"],"types":["node"]},"include":["test/**/*.ts","src/**/*.mjs","scripts/**/*.mjs","../shared/protocol/src/**/*.ts"]}

@@ -1,0 +1,16 @@
+<resources>
+    <color name="splash_bg">#F3F6FA</color>
+    <style name="Theme.Kongjing" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowBackground">@color/splash_bg</item>
+        <item name="android:colorAccent">#2F6CEB</item>
+    </style>
+    <style name="Theme.Kongjing.WebDark" parent="Theme.Kongjing" />
+    <style name="Theme.Kongjing.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_bg</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.Kongjing</item>
+    </style>
+</resources>

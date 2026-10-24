@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="空境：安静的新标签页，本地书签与端到端加密同步。下载安卓版、获取 Chrome Web Store 上传包，或自行部署 Cloudflare 与 EdgeOne Makers。" />
+    <title>空境 · 新标签页与加密同步</title>
+    <style>
+      :root {
+        --bg: #f3f6fa;
+        --text: #121826;
+        --text2: #536174;
+        --text3: #5e6c7d;
+        --accent: #2f6ceb;
+        --surface: rgba(255, 255, 255, 0.62);
+        --border: rgba(30, 60, 120, 0.1);
+        --sky: linear-gradient(
+          180deg,
+          #d6e5fa 0%,
+          #e7effa 36%,
+          #f1f5fa 66%,
+          #f4f6fa 100%
+        );
+        --ring: rgba(255, 255, 255, 0.95);
+        --ring2: rgba(47, 108, 235, 0.1);
+        --glint: #ffffff;
+        --sea1: #dde8f8;
+        --sea2: #e8f0fa;
+        --sea3: #f2f6fb;
+        --seaEdge: rgba(255, 255, 255, 0.9);
+        --sun: rgba(255, 255, 255, 0.85);
+        --haze: rgba(47, 108, 235, 0.12);
+        --star: #ffffff;
+      }
+      .dark {
+        --bg: #070b16;
+        --text: #eef2fa;
+        --text2: #a6b4cb;
+        --text3: #98a8c2;
+        --accent: #7db0ff;
+        --surface: rgba(160, 190, 255, 0.06);
+        --border: rgba(170, 200, 255, 0.1);
+        --sky: linear-gradient(
+          180deg,
+          #04070f 0%,
+          #071027 46%,
+          #0a1531 76%,
+          #0c1836 100%
+        );
+        --ring: rgba(150, 190, 255, 0.26);
+        --ring2: rgba(150, 190, 255, 0.07);
+        --glint: #cfe0ff;
+        --sea1: #0c1834;
+        --sea2: #0f1d3d;
+        --sea3: #122347;
+        --seaEdge: rgba(150, 190, 255, 0.1);
+        --sun: rgba(110, 160, 255, 0.14);
+        --haze: rgba(125, 176, 255, 0.12);
+        --star: #dce8ff;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        background: var(--bg);
+        font-family: Inter, "Microsoft YaHei UI", sans-serif;
+      }
+      .layer {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+      }
+      .sky {
+        background: var(--sky);
+      }
+      .glow {
+        background:
+          radial-gradient(40vmax 40vmax at 80% 8%, var(--sun), transparent 70%),
+          radial-gradient(
+            55vmax 45vmax at 12% 18%,
+            var(--haze),
+            transparent 70%
+          );
+      }
+      .stars {
+        display: none;
+        -webkit-mask-image: radial-gradient(
+          ellipse 380px 300px at 50% 40%,
+          rgba(0, 0, 0, 0.2),
+          #000 100%
+        );
+      }
+      .dark .stars {
+        display: block;
+      }
+      svg.orbit {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .sea {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 30vh;
+      }
+      .sea svg {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .top {
+        position: fixed;
+        top: 24px;
+        left: 28px;
+        right: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 36px;
+      }
+      .wm {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text2);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.36em;
+      }
+      .center {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 18vh;
+        text-align: center;
+      }
+      .greet {
+        color: var(--text2);
+        font-size: 15px;
+        letter-spacing: 0.02em;
+      }
+      .clock {
+        font-size: 136px;
+        font-weight: 200;
+        letter-spacing: -0.045em;
+        color: var(--text);
+        line-height: 1;
+        margin-top: 8px;
+        position: relative;
+        display: inline-block;
+      }
+      .date {
+        color: var(--text3);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        margin-top: 12px;
+      }
+      .search {
+        width: 600px;
+        height: 56px;
+        border-radius: 999px;
+        margin: 40px auto 0;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        backdrop-filter: blur(28px) saturate(150%);
+        display: flex;
+        align-items: center;
+        padding: 0 22px;
+        color: var(--text3);
+        font-size: 16px;
+      }
+      .tiles {
+        display: flex;
+        gap: 40px;
+        justify-content: center;
+        margin-top: 80px;
+      }
+      .t {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+      .spark {
+        position: absolute;
+        right: -30px;
+        top: -6px;
+        width: 18px;
+        height: 18px;
+      }
+
+      html,
+      body {
+        min-height: 100vh;
+      }
+      body {
+        color: var(--text);
+      }
+      main {
+        position: relative;
+        min-height: calc(100vh - 68px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 40px 24px;
+      }
+      main > section {
+        width: 100%;
+        max-width: 680px;
+      }
+      h1 {
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        padding-left: 0.3em;
+        margin: 20px 0 12px;
+      }
+      .subtitle {
+        font-size: 14px;
+        line-height: 1.8;
+        color: var(--text2);
+      }
+      a { color: var(--accent); text-underline-offset: 3px; }
+      a:focus-visible, summary:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 4px;
+      }
+      .project-links { margin-top: 12px; font-size: 13px; }
+      .project-links a + a { margin-left: 16px; }
+      .service-note { margin-top: 12px; }
+      .deployment { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+      .deployment h2 { font-size: 17px; font-weight: 500; }
+      .deploy-actions { margin-top: 16px; }
+      .deploy-actions .button { min-height: 44px; }
+      .explain p + p { margin-top: 12px; }
+      .installation summary { padding: 8px 0; }
+      .note { line-height: 1.8; }
+      svg.orbit, .sea { pointer-events: none; }
+      .actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 32px;
+      }
+      .download-card {
+        flex: 1;
+        min-width: 0;
+        max-width: 280px;
+      }
+      .download-card .button {
+        display: block;
+      }
+      .download-meta {
+        margin-top: 8px;
+        font-size: 12px;
+        line-height: 1.8;
+        color: var(--text2);
+      }
+      .installation {
+        margin: 20px auto 0;
+        max-width: 572px;
+        font-size: 13px;
+        line-height: 1.8;
+        color: var(--text2);
+      }
+      .installation summary {
+        cursor: pointer;
+        display: inline-block;
+        text-underline-offset: 3px;
+      }
+      .installation summary::before {
+        content: "▸";
+        margin-right: 6px;
+      }
+      .installation[open] summary::before {
+        content: "▾";
+      }
+      .installation summary:hover {
+        text-decoration: underline;
+      }
+      .install-copy {
+        text-align: left;
+      }
+      .install-copy p {
+        margin-top: 14px;
+      }
+      .file-hash {
+        display: block;
+        font: 12px/1.8 ui-monospace, Consolas, monospace;
+        overflow-wrap: anywhere;
+        user-select: text;
+      }
+      .service-actions {
+        margin-top: 20px;
+      }
+      a.button,
+      button {
+        font:
+          500 14px Inter,
+          "Microsoft YaHei UI",
+          sans-serif;
+        border-radius: 12px;
+        padding: 12px 20px;
+        border: 1px solid var(--border);
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        background: var(--surface);
+        color: var(--text);
+      }
+      .primary {
+        background: var(--text) !important;
+        color: var(--bg) !important;
+      }
+      details {
+        margin: 0;
+      }
+      summary {
+        list-style: none;
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      .explain {
+        max-width: 440px;
+        font-size: 13px;
+        line-height: 1.8;
+        color: var(--text2);
+        text-align: left;
+        margin: 20px auto;
+      }
+      footer {
+        position: relative;
+        padding: 12px 24px 24px;
+        text-align: center;
+        color: var(--text3);
+        font-size: 12px;
+      }
+      footer a {
+        color: var(--accent);
+        margin-left: 8px;
+        text-underline-offset: 3px;
+      }
+      .orbit ellipse:nth-child(2) {
+        animation: orbit 90s linear infinite;
+      }
+      .sea svg {
+        animation: sea 28s ease-in-out infinite alternate;
+      }
+      .note {
+        font-size: 12px;
+        color: var(--text3);
+        margin: 16px 0;
+      }
+      @keyframes orbit {
+        to {
+          stroke-dashoffset: -4570;
+        }
+      }
+      @keyframes sea {
+        to {
+          transform: translateY(6px);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+        }
+      }
+      html.paused * {
+        animation-play-state: paused !important;
+      }
+      @media (max-width: 759.98px) {
+        .download-options {
+          flex-direction: column;
+          align-items: center;
+        }
+        .download-card {
+          width: 100%;
+          max-width: 340px;
+        }
+        .download-android {
+          order: -1;
+        }
+      }
+      @media (max-width: 480px) {
+        footer {
+          position: relative;
+          bottom: auto;
+          padding: 0 12px 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layer sky" aria-hidden="true"></div>
+    <div class="layer glow" aria-hidden="true"></div>
+    <svg aria-hidden="true" class="layer stars" viewBox="0 0 1440 900" id="stars"></svg>
+    <svg aria-hidden="true" class="orbit" viewBox="0 0 1440 900" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="rf" x1="0" x2="1">
+          <stop offset="0" stop-color="var(--ring)" stop-opacity="0" />
+          <stop offset=".35" stop-color="var(--ring)" />
+          <stop offset="1" stop-color="var(--ring)" stop-opacity=".2" />
+        </linearGradient>
+      </defs>
+      <defs>
+        <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff" />
+          <stop offset=".42" stop-color="#fff" />
+          <stop offset=".58" stop-color="#fff" stop-opacity="0" />
+        </linearGradient>
+        <mask id="m"><rect width="1440" height="900" fill="url(#fade)" /></mask>
+      </defs>
+      <g mask="url(#m)">
+        <g transform="rotate(-8 720 300)">
+          <ellipse
+            cx="720"
+            cy="300"
+            rx="1000"
+            ry="190"
+            fill="none"
+            style="stroke: var(--ring)"
+            stroke-width="1"
+            opacity=".85"
+          />
+          <ellipse
+            cx="720"
+            cy="300"
+            rx="1000"
+            ry="190"
+            fill="none"
+            style="stroke: var(--glint)"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-dasharray="70 4200"
+            stroke-dashoffset="-300"
+            opacity=".9"
+          />
+        </g>
+      </g>
+    </svg>
+    <div class="sea" aria-hidden="true">
+      <svg viewBox="0 0 1440 270" preserveAspectRatio="none">
+        <path
+          d="M0 120 C180 90 320 100 480 120 C660 142 820 140 980 116 C1140 92 1300 96 1440 112 L1440 270 L0 270Z"
+          style="fill: var(--sea1)"
+        />
+        <path
+          d="M0 120 C180 90 320 100 480 120 C660 142 820 140 980 116 C1140 92 1300 96 1440 112"
+          fill="none"
+          style="stroke: var(--seaEdge)"
+          stroke-width="1.5"
+        />
+        <path
+          d="M0 170 C160 150 330 146 500 166 C680 188 860 186 1020 166 C1180 146 1320 150 1440 162 L1440 270 L0 270Z"
+          style="fill: var(--sea2)"
+        />
+        <path
+          d="M0 222 C200 206 380 204 560 218 C740 232 920 232 1100 218 C1240 208 1360 208 1440 214 L1440 270 L0 270Z"
+          style="fill: var(--sea3)"
+        />
+      </svg>
+    </div>
+    <main>
+      <section aria-labelledby="page-title">
+        <img src="/kongjing-logo.svg" alt="" width="80" height="80" />
+        <h1 id="page-title">空境</h1>
+        <p class="subtitle">安静的新标签页 · 本地书签与端到端加密同步</p>
+        <p class="subtitle service-note">默认公共同步服务由 Cloudflare 提供：<a href="https://kongjing.inc.re/">kongjing.inc.re</a></p>
+        <p class="project-links"><a href="https://github.com/mumuhaha487/kongjin">GitHub 开源仓库</a><a href="https://github.com/mumuhaha487/kongjin/releases/latest">最新发布</a></p>
+        <!-- BEGIN KONGJING DOWNLOADS -->
+        <div class="actions download-options">
+    <div class="download-card"><a class="button" href="/download/extension">Chrome Web Store 上传包</a><p class="download-meta">2.1.0 · 275.4 KiB</p></div>
+    <div class="download-card"><a class="button primary" href="/download/android">下载安卓版</a><p class="download-meta">1.4.1 · 2.68 MiB · Android 8.0 及以上</p></div>
+  </div><details class="installation"><summary>安装与版本说明</summary><div class="install-copy">
+    <p>电脑 ZIP 供开发者在 Chrome Web Store 更新现有扩展，沿用原商店项目。最终上架以谷歌审核结果为准。</p>
+    <p>安卓 APK 可覆盖安装同签名旧版，保留本机数据；请勿先卸载或清除数据。</p>
+    <p>两端均支持 Cloudflare 与 EO。默认使用 Cloudflare；在备案域名下自建 EO 可改善国内连接体验。所有配对设备需选择相同平台和地址。</p>
+    <p>网络中断不影响本机书签，恢复后会重试。安卓扩展注入需要 WebView 支持安全文档起始脚本。</p>
+    <p>APK SHA-256<code class="file-hash">5d54a2892a352f724c6ef5389f53c5ba634bf4d3e43b21326ec68548b868d758</code></p>
+    <p>商店 ZIP SHA-256<code class="file-hash">ec69c91b92eee510c5e6cc40632823910007c6bb691eafa65f2b23c9b67a8042</code></p>
+  </div></details>
+<!-- END KONGJING DOWNLOADS -->
+        <p class="note">离线时仍可使用本地书签与本地搜索；网络恢复后同步继续。<br />外部网站和网页搜索需要网络连接。</p>
+        <section class="deployment" aria-labelledby="deployment-title">
+          <h2 id="deployment-title">把同步服务部署到自己的账号</h2>
+          <div class="actions deploy-actions" aria-label="一键部署">
+            <a class="button" href="https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fmumuhaha487%2Fkongjin">Deploy to Cloudflare</a>
+            <a class="button" href="https://edgeone.ai/pages/new?repository-url=https%3A%2F%2Fgithub.com%2Fmumuhaha487%2Fkongjin&amp;build-command=npm%20run%20build%3Aedgeone&amp;install-command=npm%20install&amp;output-directory=edge%2Fpublic&amp;env=KONGJING_POW_SECRET">Deploy to EdgeOne Makers</a>
+          </div>
+          <p class="note">中国大陆用户可选择 EdgeOne Makers 并绑定已备案域名，作为改善延迟与可达性的方案。<br />实际体验取决于网络、地区与部署配置。</p>
+          <details class="installation">
+            <summary>自建后如何连接</summary>
+            <div class="install-copy">
+              <p>在同步设置中选择 Cloudflare 或 EdgeOne，填写自己的 HTTPS 服务地址。所有设备须使用相同的平台和地址，再重新配对；本机书签会保留。</p>
+              <p>电脑扩展只在你确认自建地址时申请访问该来源的可选权限。部署按钮会打开平台官方配置页面，运行时机密由你在平台中填写。</p>
+              <p><a href="https://github.com/mumuhaha487/kongjin/blob/HEAD/docs/DEPLOYMENT.md">查看完整部署指南</a></p>
+            </div>
+          </details>
+        </section>
+      </section>
+    </main>
+    <footer>同步内容在设备上加密，服务端无法读取书签明文。<a href="/privacy">隐私政策</a></footer>
+    <script src="/landing.js" defer></script>
+  </body>
+</html>

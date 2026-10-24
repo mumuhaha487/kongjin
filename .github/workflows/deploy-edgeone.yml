@@ -1,0 +1,36 @@
+name: Deploy to EdgeOne Makers
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-edgeone-main
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Check deployment configuration
+        run: npm run test:deployment
+      - name: Deploy
+        env:
+          EDGEONE_PAGES_API_TOKEN: ${{ secrets.EDGEONE_PAGES_API_TOKEN }}
+          EDGEONE_PROJECT_NAME: ${{ secrets.EDGEONE_PROJECT_NAME }}
+        run: npm run deploy:edgeone

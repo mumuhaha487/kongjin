@@ -1,0 +1,16 @@
+{
+  "android": {
+    "version": "1.4.1",
+    "versionCode": 11,
+    "minAndroid": "8.0",
+    "url": "https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing-browser-1.4.1.apk",
+    "size": 2809753,
+    "sha256": "5d54a2892a352f724c6ef5389f53c5ba634bf4d3e43b21326ec68548b868d758"
+  },
+  "extension": {
+    "version": "2.1.0",
+    "url": "https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing-2.1.0-store.zip",
+    "size": 282004,
+    "sha256": "ec69c91b92eee510c5e6cc40632823910007c6bb691eafa65f2b23c9b67a8042"
+  }
+}

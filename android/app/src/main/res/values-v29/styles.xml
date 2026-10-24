@@ -1,0 +1,5 @@
+<resources>
+    <style name="Theme.Kongjing.WebDark" parent="Theme.Kongjing">
+        <item name="android:isLightTheme">false</item>
+    </style>
+</resources>

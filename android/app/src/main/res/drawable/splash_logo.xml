@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:width="384dp" android:height="384dp" android:viewportWidth="384" android:viewportHeight="384">
+<group android:translateX="128" android:translateY="128">
+<group android:rotation="-16" android:pivotX="64" android:pivotY="66">
+<path android:pathData="M4 66 A60 17 0 0 1 124 66" android:fillColor="#00000000" android:strokeWidth="2.2" android:strokeLineCap="round"><aapt:attr name="android:strokeColor"><gradient android:type="linear" android:startX="4" android:startY="49" android:endX="124" android:endY="49"><item android:offset="0" android:color="#00A9CEF9"/><item android:offset="0.55" android:color="#00A9CEF9"/><item android:offset="0.8" android:color="#f2A9CEF9"/><item android:offset="1" android:color="#C9E2FC"/></gradient></aapt:attr></path>
+</group>
+<path android:pathData="M20,62a44,44 0,1 0 88,0a44,44 0,1 0 -88,0"><aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="44.64" android:startY="23.28" android:endX="74.56" android:endY="104.24"><item android:offset="0" android:color="#2D69EC"/><item android:offset="0.48" android:color="#5E9CF6"/><item android:offset="0.74" android:color="#BFDDFC"/><item android:offset="1" android:color="#E6F2FF"/></gradient></aapt:attr></path>
+<group>
+<clip-path android:pathData="M20,62a44,44 0,1 0 88,0a44,44 0,1 0 -88,0"/>
+<path android:pathData="M14 84 C28 78 40 80 52 84 C66 89 80 89 94 83 C102 80 110 79 116 80 L116 112 L14 112 Z" android:fillColor="#FFFFFF" android:fillAlpha="0.55"/>
+<path android:pathData="M14 94 C26 88 38 87 50 91 C64 96 78 97 92 92 C102 88 110 88 116 90 L116 112 L14 112 Z"><aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="14" android:startY="88.6" android:endX="14" android:endY="112"><item android:offset="0" android:color="#6FA8F7"/><item android:offset="1" android:color="#2F6CEB"/></gradient></aapt:attr></path>
+</group>
+<group android:rotation="-16" android:pivotX="64" android:pivotY="66">
+<path android:pathData="M4 66 A60 19 0 0 0 124 66 A60 13 0 0 1 4 66 Z"><aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="4" android:startY="66" android:endX="124" android:endY="66"><item android:offset="0" android:color="#00FFFFFF"/><item android:offset="0.22" android:color="#f2FFFFFF"/><item android:offset="0.7" android:color="#F4F9FF"/><item android:offset="1" android:color="#B7D7FB"/></gradient></aapt:attr></path>
+</group>
+<path android:pathData="M84 27 C85.2 35.2 87.6 37.6 96 39 C87.6 40.4 85.2 42.8 84 51 C82.8 42.8 80.4 40.4 72 39 C80.4 37.6 82.8 35.2 84 27 Z" android:fillColor="#FFFFFF"/>
+</group></vector>

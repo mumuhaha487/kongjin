@@ -1,0 +1,60 @@
+name: Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Deployment configuration
+            directory: .
+            check: npm run test:deployment
+          - name: Extension and store build
+            directory: extension
+            check: |
+              npm test
+              npm run build:store
+              npm run check:store -- --build-only
+          - name: Shared protocol
+            directory: shared/protocol
+            check: |
+              npm test
+              npm run typecheck
+          - name: EdgeOne service
+            directory: edge
+            check: node --test test/*.test.mjs
+          - name: Cloudflare service
+            directory: relay
+            check: npm test
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: ${{ matrix.directory }}/package-lock.json
+      - name: Install dependencies
+        working-directory: ${{ matrix.directory }}
+        run: npm ci
+      - name: Run checks
+        working-directory: ${{ matrix.directory }}
+        run: ${{ matrix.check }}

@@ -1,0 +1,164 @@
+@font-face {
+  font-family: Inter;
+  src: url("@fontsource-variable/inter/files/inter-latin-wght-normal.woff2")
+    format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #7db0ff;
+}
+:root {
+  --bg: #070b16;
+  --surface: rgba(160, 190, 255, 0.06);
+  --surface-hover: rgba(160, 190, 255, 0.1);
+  --surface-active: rgba(160, 190, 255, 0.14);
+  --toggle-off: rgba(160, 190, 255, 0.22);
+  --glass: rgba(10, 16, 32, 0.7);
+  --border: rgba(170, 200, 255, 0.1);
+  --border-strong: rgba(170, 200, 255, 0.2);
+  --text: #eef2fa;
+  --text-2: rgba(238, 242, 250, 0.62);
+  --text-3: rgba(238, 242, 250, 0.38);
+  --accent: #7db0ff;
+  --accent-soft: color-mix(in oklab, var(--accent) 16%, transparent);
+  --danger: #ff6b6b;
+  --success: #5ee3a1;
+  --warning: #ffc86b;
+  --scrim: rgba(0, 4, 16, 0.4);
+  --btn-primary-bg: #eef2fa;
+  --btn-primary-fg: #0a1020;
+  --sky: #7db0ff;
+  --mist: #5edccb;
+  --dusk: #ffb08a;
+  --nebula: #b6a4ff;
+  --sakura: #ff9ec0;
+  --font:
+    Inter, "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Microsoft YaHei UI",
+    "Noto Sans SC", sans-serif;
+  --mono:
+    ui-monospace, "Cascadia Mono", "SF Mono", "JetBrains Mono", Consolas,
+    monospace;
+  --clock-size: clamp(84px, 10.5vw, 136px);
+  --clock-weight: 200;
+  --clock-tracking: -0.045em;
+  --greeting-size: 15px;
+  --greeting-tracking: 0.02em;
+  --date-size: 13px;
+  --date-tracking: 0.08em;
+  --panel-title-size: 18px;
+  --panel-title-tracking: -0.01em;
+  --dialog-title-size: 22px;
+  --dialog-title-tracking: -0.015em;
+  --body-size: 14px;
+  --label-size: 12px;
+  --label-tracking: 0.1em;
+  --bookmark-size: 12px;
+  --bookmark-tracking: 0.01em;
+  --button-size: 14px;
+  --button-tracking: 0.01em;
+  --wordmark-size: 13px;
+  --wordmark-tracking: 0.36em;
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-14: 56px;
+  --s-18: 72px;
+  --s-24: 96px;
+  --r-xs: 8px;
+  --r-sm: 12px;
+  --r-md: 16px;
+  --r-lg: 20px;
+  --r-xl: 24px;
+  --r-2xl: 28px;
+  --r-pill: 999px;
+  --shadow-float:
+    0 30px 80px -20px rgba(0, 0, 10, 0.7), 0 8px 24px -12px rgba(0, 0, 10, 0.55);
+  --shadow-tile-hover: 0 12px 28px -12px rgba(0, 0, 10, 0.75);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --dur-micro: 120ms;
+  --dur-fast: 200ms;
+  --dur-base: 320ms;
+  --dur-slow: 520ms;
+  --dur-scene: 760ms;
+  --spring-snappy-stiffness: 520;
+  --spring-snappy-damping: 38;
+  --spring-snappy-mass: 1;
+  --spring-smooth-stiffness: 300;
+  --spring-smooth-damping: 32;
+  --spring-smooth-mass: 1;
+  --spring-gentle-stiffness: 170;
+  --spring-gentle-damping: 26;
+  --spring-gentle-mass: 1;
+  color-scheme: dark;
+  transition: --accent 600ms var(--ease-out);
+}
+[data-theme="light"] {
+  --bg: #f3f6fa;
+  --surface: rgba(255, 255, 255, 0.62);
+  --surface-hover: rgba(255, 255, 255, 0.82);
+  --surface-active: rgba(255, 255, 255, 0.95);
+  --toggle-off: rgba(30, 60, 120, 0.16);
+  --glass: rgba(247, 250, 254, 0.74);
+  --border: rgba(30, 60, 120, 0.1);
+  --border-strong: rgba(30, 60, 120, 0.18);
+  --text: #121826;
+  --text-2: rgba(18, 24, 38, 0.6);
+  --text-3: rgba(18, 24, 38, 0.4);
+  --danger: #e5484d;
+  --success: #1f9d63;
+  --warning: #c98a12;
+  --scrim: rgba(16, 28, 56, 0.16);
+  --btn-primary-bg: #121826;
+  --btn-primary-fg: #ffffff;
+  --sky: #2f6ceb;
+  --mist: #0f9f8f;
+  --dusk: #e3672e;
+  --nebula: #6e56f0;
+  --sakura: #de4a7e;
+  --accent: var(--sky);
+  --shadow-float:
+    0 24px 60px -24px rgba(20, 40, 90, 0.28),
+    0 6px 18px -10px rgba(20, 40, 90, 0.16);
+  --shadow-tile-hover: 0 10px 24px -12px rgba(20, 40, 90, 0.3);
+  color-scheme: light;
+}
+[data-accent="mist"] {
+  --accent: var(--mist);
+}
+[data-accent="dusk"] {
+  --accent: var(--dusk);
+}
+[data-accent="nebula"] {
+  --accent: var(--nebula);
+}
+[data-accent="sakura"] {
+  --accent: var(--sakura);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root {
+    --glass: #0c1222;
+  }
+  [data-theme="light"] {
+    --glass: #f7fafe;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass: #0c1222;
+  }
+  [data-theme="light"] {
+    --glass: #f7fafe;
+  }
+}

@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {readFile,readdir,writeFile} from 'node:fs/promises';
+import {resolve,relative} from 'node:path';
+import {unzipSync} from 'fflate';
+const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+async function walk(dir){const result=[];for(const e of await readdir(dir,{withFileTypes:true})){const p=resolve(dir,e.name);if(e.isDirectory())result.push(...await walk(p));else if(e.name!=='SHA256SUMS.txt')result.push(p);}return result.sort();}
+const android=resolve('dist-android');
+const sums=[];for(const p of await walk(android))sums.push(hash(await readFile(p))+'  '+relative(android,p).replaceAll('\\','/'));
+await writeFile(resolve(android,'SHA256SUMS.txt'),sums.join('\n')+'\n');
+const artifacts=[];
+for(const path of ['release/kongjing-2.2.0.zip','release/kongjing-2.2.0.crx','release/store/kongjing-2.0.7-store.zip','extension/dist-android/SHA256SUMS.txt'])artifacts.push({path,sha256:hash(await readFile(resolve('..',path)))});
+const previous=JSON.parse((await readFile('../docs/v6/previous-artifacts.json','utf8')).replace(/^\uFEFF/,''));
+for(const row of previous)assert.equal(hash(await readFile(row.path)),row.hash,'Historical archive changed: '+row.path);
+const manifest=async path=>JSON.parse(Buffer.from(unzipSync(await readFile(path))['manifest.json']).toString());
+const before=await manifest('../release/store/kongjing-2.0.1-store.zip'),after=await manifest('../release/store/kongjing-2.0.7-store.zip');
+for(const field of ['permissions','host_permissions'])assert.deepEqual(after[field],before[field]);
+for(const field of ['key','optional_permissions','optional_host_permissions'])assert.equal(after[field],undefined);
+const ready=await readFile(resolve(android,'READY.md'),'utf8');
+const currentProtocol=hash(await readFile('../shared/protocol/src/sync.ts'));
+assert.ok(ready.includes(currentProtocol),'READY protocol fingerprint differs');
+const builtProtocol=JSON.parse(await readFile('tests/v6-pack-protocol.json','utf8'));
+assert.equal(currentProtocol,builtProtocol.after,'Protocol source differs from packaged build');
+const result={artifacts,androidBuildTime:ready.match(/构建时间：(.*)/)[1],androidFingerprint:'SHA-256 of sorted SHA256SUMS.txt; includes READY.md, excludes checksum file itself',previousArchivesUnchanged:previous.length,storePermissions:after.permissions,storeHosts:after.host_permissions,id:'agijcmabomapmbobdgblmckibkpobdij',protocolHash:hash(await readFile('../shared/protocol/src/sync.ts'))};
+await writeFile('../docs/v6/artifacts.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));
