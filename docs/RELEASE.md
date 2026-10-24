@@ -22,9 +22,14 @@ npm --prefix extension run pack:store
 ```powershell
 npm --prefix extension ci
 npm --prefix extension run build:android
+npm --prefix android/extension-runtime ci
+npm --prefix android/extension-runtime run fixtures
+npm --prefix android/extension-runtime run build
 cd android
 .\gradlew.bat testDebugUnitTest lintDebug assembleDebug
 ```
+
+运行时测试使用七个第三方商店样本，需 Python 3 从官方更新服务下载到本机，不在仓库重新分发。下载器遵循标准 HTTPS_PROXY，可用 KJ_FIXTURE_PROXY 指定自己的代理。若只编译 APK，可单独执行 assembleDebug；完整 JVM 验证需要先备齐样本。
 
 调试构建无需作者私钥，使用本机调试签名。默认主页来自真实的 `extension/dist-android` 构建。发布包必须包含真实主页与构建标识，不能用占位主页或模拟页面代替。
 

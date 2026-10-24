@@ -50,6 +50,7 @@ Thumbs.db
 
 .toolchain/
 /android/test-state/
+/android/extension-runtime/fixtures/
 /extension/tests/.browser/
 /extension/tests/.store-smoke-*/
 /extension/tests/*-build-graph.json

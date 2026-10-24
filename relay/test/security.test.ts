@@ -132,8 +132,8 @@ describe("CORS origins", () => {
   it("allows Android WebView preflight and GET while rejecting unlisted origins", async () => {
     const f = fixture();
     const androidOrigin = "https://appassets.androidplatform.net";
-    const config = readFileSync(new URL("../wrangler.toml", import.meta.url), "utf8");
-    f.env.EXTRA_ORIGINS = /^EXTRA_ORIGINS = "([^"]*)"/m.exec(config)?.[1];
+    const config = JSON.parse(readFileSync(new URL("../../wrangler.jsonc", import.meta.url), "utf8"));
+    f.env.EXTRA_ORIGINS = config.vars.EXTRA_ORIGINS;
     expect(f.env.EXTRA_ORIGINS).toBe(androidOrigin);
     const extensionOrigin = "chrome-extension://agijcmabomapmbobdgblmckibkpobdij";
     for (const origin of [

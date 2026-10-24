@@ -58,9 +58,14 @@ npm --prefix extension run pack:store
 
 ```powershell
 npm --prefix extension run build:android
+npm --prefix android/extension-runtime ci
+npm --prefix android/extension-runtime run fixtures
+npm --prefix android/extension-runtime run build
 cd android
 .\gradlew.bat testDebugUnitTest lintDebug assembleDebug
 ```
+
+运行时测试使用七个第三方商店样本，需 Python 3 从官方更新服务下载到本机，不在仓库重新分发。下载器遵循标准 HTTPS_PROXY，可用 KJ_FIXTURE_PROXY 指定自己的代理。若只编译 APK，可单独执行 assembleDebug；完整 JVM 验证需要先备齐样本。
 
 调试构建使用自己的本机调试签名，无需作者私钥。签名发布需要自己的 `android/keystore.properties`，详见[发布流程](docs/RELEASE.md)。Android 8.0 是应用最低系统版本；扩展运行能力还取决于 WebView。WebView 91 缺少所需的 document-start 注入支持时，扩展安装会安全失败并说明限制，不会假装安装成功。更新系统 WebView 后再按实际兼容性测试；此限制不等同于本地主页无法打开。
 

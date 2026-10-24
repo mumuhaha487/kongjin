@@ -14,7 +14,7 @@ const configs = ['README.md','LICENSE','SECURITY.md','.gitignore','package.json'
   'docs/DEPLOYMENT.md','docs/STORE.md','docs/RELEASE.md','shared/protocol/READY.md',
   'android/gradlew','android/gradlew.bat','android/build.gradle.kts','android/settings.gradle.kts','android/gradle.properties','android/app/build.gradle.kts','android/app/proguard-rules.pro',
   'android/scripts/Use-Toolchain.ps1','android/scripts/Build-Release.ps1','android/scripts/Package-Release.ps1',
-  'relay/scripts/publish-downloads.mjs'];
+  'relay/scripts/publish-downloads.mjs','relay/wrangler.example.toml'];
 for (const module of ['extension','shared/protocol','relay','edge','android/extension-runtime']) {
   for (const entry of await readdir(resolve(root,module), {withFileTypes:true}))
     if (entry.isFile() && /^(?:package(?:-lock)?\.json|tsconfig.*\.json|eslint.*|vite.*\.ts|.*\.html)$/.test(entry.name)) configs.push(module+'/'+entry.name);
