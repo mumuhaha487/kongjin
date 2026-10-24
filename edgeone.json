@@ -10,7 +10,7 @@
   "redirects": [
     {
       "source": "/download/android",
-      "destination": "https://kongjing.inc.re/download/kongjing-browser-1.4.1.apk",
+      "destination": "https://kongjing.inc.re/download/kongjing-browser-1.4.2.apk",
       "statusCode": 302
     },
     {

@@ -172,15 +172,23 @@ html[data-platform="android"],
   align-items: flex-end;
   padding: 0;
 }
+/* The home WebView extends behind the native browser toolbar. Constrain the
+   overlay itself (including settings), so its scrollable end stays touchable.
+   The viewport variable also follows IME resize on older WebViews. */
+[data-platform="android"] .modal-layer,
+[data-platform="android"] .settings-layer {
+  bottom: auto;
+  height: max(0px, calc(var(--kj-viewport-height, 100vh) - var(--kj-toolbar-height, 56px)));
+}
 [data-platform="android"] .shake-shell {
   width: 100%;
   max-width: 100%;
-  max-height: calc(100dvh - 24px - env(safe-area-inset-top));
+  max-height: max(0px, calc(var(--kj-viewport-height, 100vh) - var(--kj-toolbar-height, 56px) - 24px - env(safe-area-inset-top)));
 }
 [data-platform="android"] .modal {
   width: 100%;
   max-width: 100%;
-  max-height: calc(100dvh - 24px - env(safe-area-inset-top));
+  max-height: max(0px, calc(var(--kj-viewport-height, 100vh) - var(--kj-toolbar-height, 56px) - 24px - env(safe-area-inset-top)));
   border-radius: 24px 24px 0 0;
   padding: 24px;
   padding-bottom: calc(24px + env(safe-area-inset-bottom));
@@ -239,6 +247,17 @@ html[data-platform="android"],
 [data-platform="android"] .settings-content {
   padding-bottom: calc(32px + env(safe-area-inset-bottom));
 }
+/* With a landscape IME, a fixed header can leave less than one button's
+   height for the body. Let the whole settings sheet scroll in that case. */
+@media (max-height: 300px) {
+  [data-platform="android"] .settings-panel {
+    overflow-y: auto;
+  }
+  [data-platform="android"] .settings-content {
+    overflow: visible;
+    flex: 0 0 auto;
+  }
+}
 [data-platform="android"] .pair-summary-card .button-row {
   flex-direction: column;
 }
@@ -260,6 +279,21 @@ html[data-platform="android"],
 }
 [data-platform="android"] .pair-input {
   max-width: 100%;
+}
+[data-platform="android"] .pair-actions {
+  flex-wrap: wrap;
+}
+[data-platform="android"] .pair-actions > .button {
+  min-width: 0;
+  min-height: 44px;
+  height: auto;
+  white-space: normal;
+}
+@media (max-width: 360px) {
+  [data-platform="android"] .sas-code {
+    font-size: 28px;
+    letter-spacing: 0.12em;
+  }
 }
 [data-platform="android"] .status-line {
   width: 100%;

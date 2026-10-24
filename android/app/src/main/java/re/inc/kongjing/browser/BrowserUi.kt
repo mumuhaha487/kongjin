@@ -104,7 +104,7 @@ private val DarkText = Color(0xffeef2fa)
     BackHandler { if (editing) editing = false else browser.back() }
     MaterialTheme(colorScheme = scheme, typography = Typography(titleLarge = LocalTextStyle.current.copy(fontSize=17.sp, fontWeight=androidx.compose.ui.text.font.FontWeight.SemiBold), bodyLarge=LocalTextStyle.current.copy(fontSize=15.sp))) {
         Surface(Modifier.fillMaxSize(), color = scheme.background) {
-            Box(Modifier.fillMaxSize()) {
+            Box(Modifier.fillMaxSize().imePadding()) {
             val hidden = browser.toolbarHidden && !browser.active.home && !editing && browser.sheet==null
             val hideFraction by animateFloatAsState(if(hidden)1f else 0f,tween(200,easing=PanelEase),label="工具栏滑出")
             var toolbarPixels by remember { mutableIntStateOf(0) }

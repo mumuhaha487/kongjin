@@ -34,7 +34,7 @@ test('root configuration routes the current assets and functions without account
   const edge = JSON.parse(await readFile(new URL('../edgeone.json', import.meta.url), 'utf8'));
   assert.equal(edge.outputDirectory, 'edge/public'); assert.equal(edge.name, undefined); assert.equal(edge.projectId, undefined);
   assert.deepEqual(edge.rewrites, [{ source: '/privacy', destination: '/privacy.html' }]);
-  for (const [path, destination] of [['/download/android', 'https://kongjing.inc.re/download/kongjing-browser-1.4.1.apk'], ['/download/extension', 'https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing.zip']]) {
+  for (const [path, destination] of [['/download/android', 'https://kongjing.inc.re/download/kongjing-browser-1.4.2.apk'], ['/download/extension', 'https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing.zip']]) {
     const redirect = edge.redirects.find(rule => rule.source === path);
     assert.equal(redirect.statusCode, 302); assert.equal(redirect.destination, destination);
   }

@@ -1,11 +1,11 @@
 {
   "android": {
-    "version": "1.4.1",
-    "versionCode": 11,
+    "version": "1.4.2",
+    "versionCode": 12,
     "minAndroid": "8.0",
-    "url": "https://kongjing.inc.re/download/kongjing-browser-1.4.1.apk",
-    "size": 2809797,
-    "sha256": "63918238ceb298f23620a6b227fb619b96bed16aa07151ee66f7b1d3c718cc1a"
+    "url": "https://kongjing.inc.re/download/kongjing-browser-1.4.2.apk",
+    "size": 2809885,
+    "sha256": "a5c9579c7cf82691dcc8bf4e1cc9b0c7f06c5ee77f42ece08ebbe5f7b85a6d2c"
   },
   "extension": {
     "version": "2.1.0",

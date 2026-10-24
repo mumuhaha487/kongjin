@@ -13,7 +13,7 @@
 | --- | --- | --- |
 | Chrome Web Store 上传包 | 2.1.0 | [kongjing.zip](https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing.zip) |
 | 同一商店构建的 CRX | 2.1.0 | [kongjing.crx](https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing.crx) |
-| Android APK | 1.4.1（versionCode 11） | [官网下载](https://kongjing.inc.re/download/android) |
+| Android APK | 1.4.2（versionCode 12） | [官网下载](https://kongjing.inc.re/download/android) |
 | 完整公开源码 | main 发布提交 | [source.zip](https://github.com/mumuhaha487/kongjin/releases/latest/download/source.zip) |
 | 主界面 / Android 内置主页源码 | 2.4.0 | `extension/` |
 
