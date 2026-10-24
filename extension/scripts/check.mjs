@@ -246,7 +246,7 @@ export async function checkStoreArchive(root) {
   await check([dist], true);
   const entries = unzipSync(
     await readFile(
-      resolve(root, `release/store/kongjing-${storeVersion}-store.zip`),
+      resolve(root, "release/kongjing.zip"),
     ),
   );
   const paths = await walk(dist);

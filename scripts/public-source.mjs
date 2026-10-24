@@ -42,8 +42,13 @@ async function copy(name) {
   const bytes = await readFile(path);
   const textFile = /\.(?:ts|tsx|js|mjs|cjs|json|jsonc|md|html|css|svg|xml|txt|kts|properties|toml|ps1|yml|yaml)$/.test(name) || /(?:LICENSE|SECURITY|gitignore|gradlew|_redirects|_headers)$/.test(name);
   let output = textFile ? sanitize(bytes.toString('utf8')) : bytes;
-  if (name.endsWith('/public/_redirects')) output = '/privacy /privacy.html 200\n/download/android https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing-browser-1.4.1.apk 302\n/download/extension https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing-2.1.0-store.zip 302\n';
-  if (/^(?:relay|edge)\/public\/download\/latest\.json$/.test(name)) output = String(output).replaceAll(/https:\/\/[^"\s]+\/download\/(kongjing[^"\s]+)/g,'https://github.com/mumuhaha487/kongjin/releases/latest/download/$1');
+  if (name.endsWith('/public/_redirects')) output = '/privacy /privacy.html 200\n/download/android https://kongjing.inc.re/download/kongjing-browser-1.4.1.apk 302\n/download/extension https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing.zip 302\n';
+  if (/^(?:relay|edge)\/public\/download\/latest\.json$/.test(name)) {
+    const latest = JSON.parse(String(output));
+    latest.android.url = 'https://kongjing.inc.re/download/kongjing-browser-1.4.1.apk';
+    latest.extension.url = 'https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing.zip';
+    output = JSON.stringify(latest, null, 2) + '\n';
+  }
   if (name === 'relay/package.json' || name === 'edge/package.json') {
     const pkg = JSON.parse(String(output));
     pkg.scripts = name.startsWith('relay') ? {test:'vitest run',local:'node local/server.mjs',deploy:'node ../scripts/deploy-cloudflare.mjs'} : {test:'node --test test/*.test.mjs',build:'node ../scripts/prepare-edgeone.mjs',deploy:'node ../scripts/deploy-edgeone.mjs'};

@@ -1,6 +1,6 @@
 # Chrome Web Store 发布说明
 
-当前电脑商店上传包版本为 **2.1.0**，唯一电脑发布产物为 `release/store/kongjing-2.1.0-store.zip`。`extension/package.json` 的主界面版本 2.4.0 同时服务于 Android 主页，商店版本以打包后的 `manifest.json` 为准。
+当前电脑商店上传包版本为 **2.1.0**，上传文件为 `release/kongjing.zip`。`release/kongjing.crx` 仅为同一 ZIP 使用既有密钥签名的容器，不是另一套功能版本，也不代替商店上传 ZIP。`extension/package.json` 的主界面版本 2.4.0 同时服务于 Android 主页，商店版本以打包后的 `manifest.json` 为准。
 
 ## 构建上传包
 
@@ -47,6 +47,22 @@ npm --prefix extension run pack:store
 商店的单一用途说明、权限说明、数据披露与隐私政策必须符合最终 ZIP 的实际行为：本地书签和新标签页是核心功能，多设备同步可选，内容在设备上端到端加密。服务端仍能处理随机标识、密文大小、时间和网络元数据；网站图标查询会发送域名。搜索词在用户提交后会交给默认搜索引擎。不得将端到端加密表述为没有任何网络元数据。
 
 可执行代码随 ZIP 打包。同步服务、图标响应和用户填写的服务地址仅提供数据，不提供远程可执行代码。不要添加远程脚本、下载后执行的模块或远程求值逻辑。
+
+### 控制台可粘贴说明
+
+`scripting` / 脚本编写理由：
+
+```text
+The optional scripting permission is used only for the Kongjing bookmark Dock. This feature is disabled by default. When the user explicitly enables it and grants website access, the extension uses chrome.scripting to register and inject bar.js, which is included in the extension package, into permitted HTTP/HTTPS pages. The Dock lets users access saved bookmarks and save the current page. Disabling the feature unregisters the content script. No remote code is downloaded or executed.
+```
+
+主机权限理由（替换旧版「未使用内容脚本」说明）：
+
+```text
+The required https://kongjing.inc.re/* access connects to the default sync and favicon service. Sync payloads are encrypted on the device; the relay stores and forwards ciphertext. Favicon requests send a site's domain to retrieve its public icon. Optional HTTP/HTTPS access is requested only after a user action: for the exact origin of a user-configured sync service, or for websites when the user enables the bookmark Dock. The Dock injects only bar.js included in the extension package and lets the user open saved bookmarks or save the current page URL and title. It does not read page body text or browsing history. Optional access can be denied or revoked.
+```
+
+「远程代码」按当前商店包的实际行为选择「否」。联网传输数据不等同于加载远程可执行代码。若未来实现改变，应更新披露；不得为了匹配表单选项删减功能或隐瞒行为。
 
 截图和介绍应展示最终商店版的真实界面。若提供审核测试步骤，使用自己的临时测试设备与可撤销配对，说明如何创建配对、比对安全码、授权自建来源和离开配对组；不要在公开材料中提供真实用户密钥或私人后端地址。
 

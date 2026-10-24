@@ -10,12 +10,12 @@
   "redirects": [
     {
       "source": "/download/android",
-      "destination": "https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing-browser-1.4.1.apk",
+      "destination": "https://kongjing.inc.re/download/kongjing-browser-1.4.1.apk",
       "statusCode": 302
     },
     {
       "source": "/download/extension",
-      "destination": "https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing-2.1.0-store.zip",
+      "destination": "https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing.zip",
       "statusCode": 302
     }
   ],

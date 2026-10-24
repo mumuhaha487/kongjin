@@ -13,7 +13,9 @@ npm --prefix extension run lint:store
 npm --prefix extension run pack:store
 ```
 
-唯一电脑发布文件为 `release/store/kongjing-2.1.0-store.zip`。检查 ZIP 根目录 `manifest.json` 的 `version`、Service Worker 入口、权限与实际打包内容，再上传到 Chrome Web Store。商店审核是独立流程，不能以构建成功替代审核，也不能保证审核结果。完整权限说明见 [STORE.md](STORE.md)。
+商店上传文件为 `release/kongjing.zip`。检查 ZIP 根目录 `manifest.json` 的 `version`、Service Worker 入口、权限与实际打包内容，再上传到 Chrome Web Store。商店审核是独立流程，不能以构建成功替代审核，也不能保证审核结果。完整权限说明见 [STORE.md](STORE.md)。
+
+可选设置 `KONGJING_CRX_KEY_PATH` 为自己的既有私钥，打包时同时生成 `release/kongjing.crx`。CRX 的 ZIP 载荷与商店 ZIP 字节完全相同，未改变功能；没有私钥时不创建替代身份。CRX 本地签名不等于 Google 商店签名。
 
 ## Android 调试构建
 
@@ -58,6 +60,8 @@ pwsh -File android/scripts/Build-Release.ps1
 
 最终检查 APK 内 `versionName=1.4.1`、`versionCode=11`、最低系统版本以及签名证书，并计算 SHA-256。保留同一发布身份，不能为了方便更新而自动生成新的签名或把调试包标为正式版。
 
+APK 保存在 Gradle 标准输出 `android/app/build/outputs/apk/release/app-release.apk`。归档脚本只向 `release/android.url` 写官网下载链接；证书与 SHA-256 输出到控制台，不在交付目录生成附加文件。
+
 ## 运行兼容性验证
 
 验证实际发布包中的本地主页、收藏持久化、搜索、配对与网络恢复。同步请求使用有界超时和退避，仅自动重试适合重试的幂等操作；服务不可用时本地数据应保留，联网后继续同步。
@@ -68,12 +72,24 @@ Android 最低系统版本为 8.0，WebView 版本会影响网页与扩展运行
 
 ## GitHub Releases 与官网下载
 
-发布说明列出三个组件的实际版本、主要变化、已知限制、APK 签名信息和安装包 SHA-256。电脑附件使用 `kongjing-2.1.0-store.zip`；Android 附件使用相应版本 APK。不要把运行时机密、keystore、签名属性、用户数据或本机报告目录作为附件。
+目录固定名为 `release`，只有四个文件：
+
+```text
+release/
+  kongjing.crx
+  kongjing.zip
+  android.url
+  source.zip
+```
+
+GitHub Release 也只上传这四项，不附图片、摘要文件或额外说明。版本、已知限制、证书及校验值写在 Release 正文。Android 实体 APK 放在官网下载服务；`android.url` 是该下载入口的快捷链接。源码归档使用经过隐私扫描并已提交的公开 Git 快照，不能打包包含本机机密的整个工作目录。
+
+签名 APK 和扩展 ZIP 就绪后，先运行 `node scripts/release.mjs --downloads-only` 准备官网下载及链接；提交审查过的公开源码，再运行 `node scripts/release.mjs --source-directory <public-git-directory>` 从其 HEAD 生成 `source.zip`。在公开仓库内可省略此参数，默认使用自身 Git。运行 `node scripts/check-release.mjs --allow-extra`，然后执行 `pwsh -File scripts/clean-releases.ps1 -Apply`；脚本会先验签和检查四项产物，再删除 `release` 内其他文件及空子目录。最终 `node scripts/check-release.mjs` 应通过。商店截图如需重新生成，保存到内部 `extension/artifacts/store-assets`，不进入交付目录或 Release 附件。
 
 官网电脑下载使用：
 
 ```text
-https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing-2.1.0-store.zip
+https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing.zip
 ```
 
 安卓稳定下载别名为 `https://kongjing.inc.re/download/android`。更新官网版本文字、下载重定向和校验信息时，以最终文件为准，并验证跳转后文件与已计算的 SHA-256 一致。

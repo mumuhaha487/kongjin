@@ -11,8 +11,10 @@
 
 | 组件 | 当前版本 | 获取方式 |
 | --- | --- | --- |
-| Chrome Web Store 上传包 | 2.1.0 | [kongjing-2.1.0-store.zip](https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing-2.1.0-store.zip) |
-| Android APK | 1.4.1（versionCode 11） | [官网下载](https://kongjing.inc.re/download/android)或 [GitHub Releases](https://github.com/mumuhaha487/kongjin/releases/latest) |
+| Chrome Web Store 上传包 | 2.1.0 | [kongjing.zip](https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing.zip) |
+| 同一商店构建的 CRX | 2.1.0 | [kongjing.crx](https://github.com/mumuhaha487/kongjin/releases/latest/download/kongjing.crx) |
+| Android APK | 1.4.1（versionCode 11） | [官网下载](https://kongjing.inc.re/download/android) |
+| 完整公开源码 | main 发布提交 | [source.zip](https://github.com/mumuhaha487/kongjin/releases/latest/download/source.zip) |
 | 主界面 / Android 内置主页源码 | 2.4.0 | `extension/` |
 
 电脑 ZIP 是向 Chrome Web Store 提交的发布包，不代表已经通过商店审核。用户应从审核通过后的正式商店页面安装，具体状态见最新发布说明。商店包与 Android 主页使用各自的版本号。详见[商店发布说明](docs/STORE.md)和[版本发布流程](docs/RELEASE.md)。
@@ -52,7 +54,9 @@ npm --prefix extension ci
 npm --prefix extension run pack:store
 ```
 
-电脑发布产物是 `release/store/kongjing-2.1.0-store.zip`，ZIP 根目录含 `manifest.json`。不需要作者的签名私钥或云账号即可构建上传包。
+发布目录固定为 `release`，不附版本或其他后缀。交付文件只有 `kongjing.zip`、`kongjing.crx`、`android.url` 和 `source.zip`，不附图片、校验文本或说明文件。ZIP 根目录含 `manifest.json`，无需作者私钥或云账号即可构建并提交商店。
+
+CRX 使用同一份 ZIP 签名，需设置 `KONGJING_CRX_KEY_PATH` 指向自己的既有私钥；缺少私钥时只构建 ZIP，不自动创建新的签名身份。CRX 不是 Google 商店签名包，正常用户仍从正式商店安装。`android.url` 打开官网 APK 下载，源码归档来自经过审查的公开 Git 提交。完整四项归档流程见 [RELEASE.md](docs/RELEASE.md)。
 
 先构建真实 Android 主页，再构建调试 APK。在 Windows PowerShell 中运行：
 

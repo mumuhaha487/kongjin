@@ -14,7 +14,7 @@ import {
 import { launchChrome } from "./browser.mjs";
 import { fixture, setup } from "./fixtures.mjs";
 import { assertPairingSection } from "./pairing-section-check.mjs";
-const out = resolve("../release/store/assets");
+const out = resolve("artifacts/store-assets");
 await mkdir(out, { recursive: true });
 const server = await preview({
   configFile: false,
