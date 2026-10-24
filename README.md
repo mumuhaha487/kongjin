@@ -88,3 +88,7 @@ npm --prefix extension run lint:store
 ## 安全与许可
 
 漏洞请按 [SECURITY.md](SECURITY.md) 私下报告，避免在公开 issue 中附上配对凭据或用户数据。项目使用 [MIT License](LICENSE)；第三方依赖保留各自的许可和声明。
+
+## 友情链接
+
+[LINUX DO](https://linux.do/)
